@@ -1,17 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Product from '../product/Product';
-
+import { Link } from 'react-router-dom';
 import fakeData from './../../../fakeData/index';
 import './Shop.css';
 import Card from './../card/Card';
+import { addToDatabaseCart, getDatabaseCart } from '../../../utilities/databaseManager';
 
 const Shop = () => {
         const TenFakeData=fakeData.slice(0,10);
         const [products,setproducts]=useState(TenFakeData);
         const [card,setcard]=useState([]);
+
+        useEffect(()=>{
+            const savecart=getDatabaseCart();
+            const productsKey=Object.keys(savecart);
+            const ProductsCart=productsKey.map(existingkey=>{
+                const product=fakeData.find(pd=>pd.key===existingkey);
+                product.quantity=savecart[existingkey];
+                return product;
+            })
+            setcard(ProductsCart);
+        },[])
         const handleAddProduct=(product)=>{
-            const newcard=[...card,product];
-            setcard(newcard);
+            let newcard=[];
+            const sameproduct=card.find(pd=>pd.key===product.key);
+            let count=1;
+
+            if(sameproduct)
+            {
+                count=sameproduct.quantity+1;
+                sameproduct.quantity=count;
+                const outhers=card.filter(pd=>pd.key!==product.key);
+                newcard=[...outhers,sameproduct];
+                setcard(newcard);
+            }
+            else{
+                product.quantity=1;
+                newcard=[...card,product];
+                setcard(newcard);
+            }
+            addToDatabaseCart(product.key,count);
         }
     return (
         <div className='shop-container'>
@@ -19,12 +47,18 @@ const Shop = () => {
                 {
                     products.map(pd=><Product 
                     product={pd}
+                    key={pd.key}
+                    DisplayAddToCart={true}
                     handleAddProduct={handleAddProduct}>
                     </Product>)
                 }
             </div>
             <div className="card-container">
-               <Card card={card}></Card>
+               <Card card={card}>
+                <Link className='buttonlink' to='/review'>
+                    <button className='mainButton'>Order Review</button>
+                </Link>
+               </Card>
             </div>
             
         </div>

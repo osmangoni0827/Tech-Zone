@@ -1,14 +1,16 @@
 import React from 'react';
 
+import './card.css';
 const card = (profs) => {
     const card=profs.card;
     console.log(card);
-    const total=card.reduce((total,product)=>total+product.price,0);
+    const total=card.reduce((total,product)=>total+(product.price*product.quantity),0);
+   
     let ShippingCost=0;
-    if(total<10){
+    if((total>0)&&(total<50)){
         ShippingCost=15.50;
     }
-    else if(total<100)
+    else if((total<100)&&(total>50))
     {
         ShippingCost=10.99;
     }
@@ -17,15 +19,20 @@ const card = (profs) => {
         ShippingCost=0;
     }
     const tex=Number((total*0.10).toFixed(2));
-    const grandTotal=Number(total.toFixed(2))+ShippingCost+tex
+
+    const grandTotal=(Number(total.toFixed(2))+Number(ShippingCost.toFixed(2))+tex).toFixed(2);
     return (
-        <div>
+        <div className='card'>
              <h1>Order Summary</h1>
             <p>Items Ordered: {card.length}</p>
             <p>Products Price: {total.toFixed(2)}</p>
             <p><small>Shipping Cost: {ShippingCost}</small></p>
             <p>Vat-Tex: {tex}</p>
             <p>Total Price: {grandTotal}</p>
+            <br></br>
+           {
+               profs.children
+           }
         </div>
     );
 };

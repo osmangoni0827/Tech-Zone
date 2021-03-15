@@ -1,0 +1,11 @@
+.card h1{
+    text-align: center;
+}
+.card button{
+    display: block;
+    margin: 0 auto;
+    text-decoration: none;
+}
+.buttonlink{
+    text-decoration: none;
+}
