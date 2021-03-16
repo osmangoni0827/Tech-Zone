@@ -11,7 +11,7 @@ const product = (profs) => {
            <div>
                <img src={img}></img>
            </div>
-           <div>
+           <div className='productinfo'>
             <h3 className='productName'>
                 <Link className='link' to={'/product/'+key}>{name}</Link></h3>
 
