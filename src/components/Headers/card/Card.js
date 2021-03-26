@@ -1,9 +1,9 @@
 import React from 'react';
-
 import './card.css';
+
 const card = (profs) => {
-    const card=profs.card;
-    console.log(card);
+    const {card}=profs
+    // const card=profs.card;
     const total=card.reduce((total,product)=>total+(product.price*product.quantity),0);
    
     let ShippingCost=0;
@@ -19,7 +19,6 @@ const card = (profs) => {
         ShippingCost=0;
     }
     const tex=Number((total*0.10).toFixed(2));
-
     const grandTotal=(Number(total.toFixed(2))+Number(ShippingCost.toFixed(2))+tex).toFixed(2);
     return (
         <div className='card'>
@@ -31,6 +30,7 @@ const card = (profs) => {
             <p>Total Price: {grandTotal}</p>
             <br></br>
            {
+            //    OrderReview Button
                profs.children
            }
         </div>
