@@ -18,3 +18,15 @@
 .header nav a:hover{
     background-color: gray;
 }
+.header button{
+    float: right;
+    background-color: rgb(248, 248, 246);
+    color: black;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    border-radius: 0px;
+    font-size: 20px;
+    height: 35px;
+    width: 100px;
+}

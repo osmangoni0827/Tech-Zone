@@ -1,0 +1,33 @@
+.signup{
+    width: 400px;
+    background-color: rgb(155, 137, 58);
+    color: wheat;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 20px auto;
+
+}
+input{
+    width: 360px;
+    height: 60px;
+    border: 1px solid rgb(155, 137, 58);
+    border-radius: 20px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+button{
+    color: white;
+    height: 40px;
+    font-size: 30px;
+    background-color: #FF9800;
+    border-radius: 15px;
+    margin-top: 10px;
+    border: 1px solid rgb(155, 137, 58);
+    cursor: pointer;
+}
+img{
+    width: 200px;
+    text-align: center;
+    margin: 5px;
+}

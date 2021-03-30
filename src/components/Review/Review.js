@@ -6,9 +6,11 @@ import ReviewItem from '../ReviewItme/ReviewItem';
 import './Review.css';
 import HappyImage from '../../images/giphy.gif';
 import './Review.css';
+import { useHistory } from 'react-router';
 const Review = () => {
     const [cart,setcart]=useState([]);
     const [placeorder,setplaceorder]=useState(false);
+    const history=useHistory();
     useEffect(()=>{
         const savecart=getDatabaseCart();
         const productkey=Object.keys(savecart);
@@ -24,11 +26,12 @@ const Review = () => {
         setcart(newcart);
         removeFromDatabaseCart(keys)
     }
-    const handleplaceOrder=()=>{
-        setcart([]);
-        processOrder();
-        setplaceorder(true);
+    const handleProceedCheckOut=()=>{
+       history.push('/shipment');
     }
+    // setcart([]);
+    // processOrder();
+    // setplaceorder(true);
     let happyorder;
     if(placeorder){
         happyorder=<img src={HappyImage} alt=''></img>
@@ -45,8 +48,8 @@ const Review = () => {
             </div>
             <div className='card-container'>
                     <Card card={cart}>
-                        <button className='mainButton' onClick={handleplaceOrder}>
-                            Place Order
+                        <button className='mainButton' onClick={handleProceedCheckOut}>
+                            ProceedCheckOut
                         </button>
                     </Card>
             </div>
