@@ -28,6 +28,8 @@ export const HandleSignInWithGoogle=()=>{
                 photo:user.photoURL,
                 email:user.email
             }
+
+            SaveInfoLocalstorage();
           return signdInUser;
           
           // ...
@@ -50,6 +52,7 @@ export const HandleSignInWithEmailandPassword=(email, password)=>{
         NewUserInformation.IsSignIn=true;
         NewUserInformation.error='';
         NewUserInformation.success=true;
+        SaveInfoLocalstorage();
         return NewUserInformation;
       // ...
     })
@@ -60,4 +63,13 @@ export const HandleSignInWithEmailandPassword=(email, password)=>{
       NewUserInformation.error=errorMessage;
       return NewUserInformation;
     });
+}
+
+const SaveInfoLocalstorage=()=>{
+  firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+    sessionStorage.setItem('token',idToken);
+  }).catch(function(error) {
+    // Handle error
+  });
+
 }

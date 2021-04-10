@@ -1,19 +1,44 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router';
 import { LogedInContext } from '../../App';
+import { getDatabaseCart, processOrder } from '../../utilities/databaseManager';
+import Payment from '../Payment/Payment';
 import './Shipment.css';
 const Shipment = () => {
-
-
-
+    const history=useHistory();
     const { register, handleSubmit, watch, errors } = useForm();
+    const[LogedInUser]=useContext(LogedInContext);
+    const [shipmentData,setShipmentData]=useState(null);
     const onSubmit = data =>{
+      setShipmentData(data);
     console.log(data);
   } 
-  console.log(watch("example")); // watch input value by passing the name of it
-  const [LogedInUser]=useContext(LogedInContext);
+  const HandlePaymentAndOrder=(id)=>{
+    const product=getDatabaseCart();
+    const OrderDetails={...LogedInUser,Products:product,OrderInfo:shipmentData,PaymentId:id,OrderTime:new Date().toDateString('dd/MM/yyyy')}
+    fetch(' http://localhost:4000/addOrder',{
+      method:'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify(OrderDetails)
+    })
+    .then(res=>res.json())
+    .then(data=>
+     {
+       if(data){
+         alert('Order successfully');
+         processOrder();
+         history.push('/shop');
+       }
+     })
+  }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='ShipmentForm'>
+
+   <div className='row'>
+     <div className="col col-md-6" style={{display:shipmentData?'none':'block'}}>
+       <form onSubmit={handleSubmit(onSubmit)} className='ShipmentForm'>
     
       <input name="firstName" placeholder='Enter Your Name' defaultValue={LogedInUser.name} type='text' ref={register({ required: true })} />
       <p>{errors.name && <span style={{color:'red'}}>This field is required</span>}</p>
@@ -39,6 +64,14 @@ const Shipment = () => {
       
       <button type="submit">Submit</button>
     </form>
+     </div>
+     <div className="col col-md-6" style={{display:shipmentData?'block':'none'}}>
+      <Payment HandlePaymentAndOrder={HandlePaymentAndOrder}></Payment>
+      {/* {
+        HandlePaymentAndOrder(20)
+      } */}
+     </div>
+   </div>
   );
 };
 
