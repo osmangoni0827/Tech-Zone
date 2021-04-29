@@ -21,8 +21,8 @@ const card = (profs) => {
     const tex=Number((total*0.10).toFixed(2));
     const grandTotal=(Number(total.toFixed(2))+Number(ShippingCost.toFixed(2))+tex).toFixed(2);
     return (
-        <div className='card'>
-             <h1>Order Summary</h1>
+        <div className='Card'>
+             <h2>Order Summary</h2>
             <p>Items Ordered: {card.length}</p>
             <p>Products Price: {total.toFixed(2)}</p>
             <p><small>Shipping Cost: {ShippingCost}</small></p>

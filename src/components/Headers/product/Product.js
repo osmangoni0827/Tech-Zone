@@ -16,8 +16,8 @@ const product = (profs) => {
            </div>
            {/* Product Detail */}
            <div className='productinfo'>
-                <h3 className='productName'>
-                <Link className='link' to={'/product/'+key}>{name}</Link></h3>
+                <h4 className='productName'>
+                <Link className='link' to={'/product/'+key}>{name}</Link></h4>
                <br/>
                <p><small>By: {seller}</small></p>
                <p>Prize: ${price}</p>

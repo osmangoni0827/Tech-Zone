@@ -7,19 +7,38 @@ import Card from './../card/Card';
 import { addToDatabaseCart, getDatabaseCart } from '../../../utilities/databaseManager';
 
 const Shop = () => {
-        const TenFakeData=fakeData.slice(0,10);
-        const [products,setproducts]=useState(TenFakeData);
+        const [products,setproducts]=useState([]);
         const [card,setcard]=useState([]);
-
+        const [search,setSearch]=useState('');
+        const HandleSearchButton=()=>{
+                const searchvalue= document.getElementById('searchinput').value;
+                setSearch(searchvalue);
+        }
+        useEffect(()=>{
+            fetch('http://localhost:4000/products?name='+search)
+            .then(data=>data.json())
+            .then(data=>setproducts(data))
+        },[search])
         useEffect(()=>{
             const savecart=getDatabaseCart();
             const productsKey=Object.keys(savecart);
-            const ProductsCart=productsKey.map(existingkey=>{
-                const product=fakeData.find(pd=>pd.key===existingkey);
-                product.quantity=savecart[existingkey];
-                return product;
+
+            fetch('http://localhost:4000/productByKey',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify(productsKey)
             })
-            setcard(ProductsCart);
+            .then(res=>res.json())
+            .then(data=>{
+                const ProductsCart=productsKey.map(existingkey=>{
+                    const product=data.find(pd=>pd.key===existingkey);
+                    product.quantity=savecart[existingkey];
+                    return product;
+                })
+                setcard(ProductsCart);
+            })
         },[])
         const handleAddProduct=(product)=>{
             let newcard=[];
@@ -44,6 +63,12 @@ const Shop = () => {
     return (
         <div className='shop-container'>
             <div className="product-container">
+
+                <div className='search'>
+                <input type='text' placeholder='Search' id='searchinput'></input>
+                <button className='btn btn-secondary' onClick={HandleSearchButton}>Search</button>
+                </div>
+               
                 {
                     products.map(pd=><Product 
                     product={pd}
