@@ -14,7 +14,7 @@ const Review = () => {
     useEffect(()=>{
         const savecart=getDatabaseCart();
         const productkey=Object.keys(savecart);
-        fetch('http://localhost:4000/productByKey',{
+        fetch('https://blooming-brook-15210.herokuapp.com/productByKey',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'

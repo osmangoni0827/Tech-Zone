@@ -12,10 +12,11 @@ const Shop = () => {
         const [search,setSearch]=useState('');
         const HandleSearchButton=()=>{
                 const searchvalue= document.getElementById('searchinput').value;
-                setSearch(searchvalue);
+                const value=searchvalue.toUpperCase();
+                setSearch(value);
         }
         useEffect(()=>{
-            fetch('http://localhost:4000/products?name='+search)
+            fetch('https://blooming-brook-15210.herokuapp.com/products?name='+search)
             .then(data=>data.json())
             .then(data=>setproducts(data))
         },[search])
@@ -23,7 +24,7 @@ const Shop = () => {
             const savecart=getDatabaseCart();
             const productsKey=Object.keys(savecart);
 
-            fetch('http://localhost:4000/productByKey',{
+            fetch('https://blooming-brook-15210.herokuapp.com/productByKey',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json'

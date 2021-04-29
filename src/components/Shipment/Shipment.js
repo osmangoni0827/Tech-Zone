@@ -17,7 +17,7 @@ const Shipment = () => {
   const HandlePaymentAndOrder=(id)=>{
     const product=getDatabaseCart();
     const OrderDetails={...LogedInUser,Products:product,OrderInfo:shipmentData,PaymentId:id,OrderTime:new Date().toDateString('dd/MM/yyyy')}
-    fetch(' http://localhost:4000/addOrder',{
+    fetch(' https://blooming-brook-15210.herokuapp.com/addOrder',{
       method:'POST',
       headers:{
         'Content-Type': 'application/json'
