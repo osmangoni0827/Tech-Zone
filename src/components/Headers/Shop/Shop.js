@@ -12,8 +12,7 @@ const Shop = () => {
         const [search,setSearch]=useState('');
         const HandleSearchButton=()=>{
                 const searchvalue= document.getElementById('searchinput').value;
-                const value=searchvalue.toUpperCase();
-                setSearch(value);
+                setSearch(searchvalue);
         }
         useEffect(()=>{
             fetch('https://blooming-brook-15210.herokuapp.com/products?name='+search)
